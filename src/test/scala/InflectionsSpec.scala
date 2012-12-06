@@ -21,5 +21,14 @@ object InflectionsSpec extends Specification {
 		"camel case html-5-javascript to Html5Javascript" in {
 			Inflections.camelize("html 5 Javascript") must be equalTo("Html5Javascript")	
 		}
-	}
+		"camel case product to product" in {
+			Inflections.camelize("product", false) must be equalTo("product")
+		}
+		"camel case special_guest_star to specialGuestStar" in {
+			Inflections.camelize("special_guest_star", false) must be equalTo("specialGuestStar")
+		}
+		"camel case area51_controller to area51Controller" in  {
+			Inflections.camelize("area51_controller", false) must be equalTo("area51Controller")
+		}
+	}	
 }
