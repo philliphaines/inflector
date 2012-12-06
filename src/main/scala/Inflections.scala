@@ -1,3 +1,5 @@
+import java.text.Normalizer
+import java.util.regex.Pattern
 
 object Inflections {
 	def camelize(term: String, upperCaseFirstLetter : Boolean = true) : String = {
@@ -21,5 +23,23 @@ object Inflections {
         case _ => "%dth".format(term)
       }
     }
+  }
+
+  /**
+   Replaces special characters in a string so that it may be used as part of a ‘pretty’ URL.
+   */
+  def parameterize(term: String, separator: String = "-") : String = {
+    val separatorRegex = Pattern.quote(separator)
+    val separatorRepeatedPattern = (separatorRegex + "{2,}").r
+    val trimseparatorPattern = ("^" + separatorRegex + "|" + separatorRegex + "$").r
+
+    trimseparatorPattern.replaceAllIn(
+      separatorRepeatedPattern.replaceAllIn(
+        """[^a-zA-Z0-9\-_]+""".r.replaceAllIn(transliterate(term), separator), ""), "").toLowerCase
+  }
+
+  def transliterate(term: String) : String = {
+    // http://www.jarvana.com/jarvana/view/org/apache/lucene/lucene-core/2.9.3/lucene-core-2.9.3-sources.jar!/org/apache/lucene/analysis/ASCIIFoldingFilter.java?format=ok
+    term
   }
 }

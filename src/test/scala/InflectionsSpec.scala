@@ -32,6 +32,55 @@ object InflectionsSpec extends Specification {
 		}
 	}	
 
+	"parameterize" should {
+		"Donald E. Knuth parameterize to donald-e-knuth" in {
+			Inflections.parameterize("Donald E. Knuth") must be equalTo "donald-e-knuth"
+		}
+		"Random text with *(bad)* characters parameterize to random-text-with-bad-characters" in {
+		    Inflections.parameterize("Random text with *(bad)* characters") must be equalTo "random-text-with-bad-characters"
+		}
+		"Allow_Under_Scores parameterize to allow_under_scores" in {
+		    Inflections.parameterize("Allow_Under_Scores") must be equalTo "allow_under_scores"
+		}
+		"Trailing bad characters!@# parameterize to trailing-bad-characters" in {
+		    Inflections.parameterize("Trailing bad characters!@#") must be equalTo "trailing-bad-characters"
+		}
+		"!@#Leading bad characters parameterize to leading-bad-characters" in {    
+		    Inflections.parameterize("!@#Leading bad characters") must be equalTo "leading-bad-characters"
+		}
+		"Squeeze   separators parameterize to squeeze-separators" in {    
+		    Inflections.parameterize("Squeeze   separators") must be equalTo "squeeze-separators"
+		}
+		"Test with + sign parameterize to test-with-sign" in {    
+		    Inflections.parameterize("Test with + sign") must be equalTo "test-with-sign"
+		}
+		    //Inflections.parameterize("Test with malformed utf8 \u0102") must be equalTo "test-with-malformed-utf8"
+	}
+
+	"parameterize with no separator" should {
+		"Donald E. Knuth parameterize to donaldeknuth" in {
+    		Inflections.parameterize("Donald E. Knuth", "") must be equalTo "donaldeknuth"
+    	}
+    	"With-some-dashes parameterize to with-some-dashes" in {
+    		Inflections.parameterize("With-some-dashes", "") must be equalTo "with-some-dashes"
+    	}
+    	"Random text with *(bad)* characters parameterize to randomtextwithbadcharacters" in {
+    		Inflections.parameterize("Random text with *(bad)* characters", "") must be equalTo "randomtextwithbadcharacters"
+    	}
+    	"Trailing bad characters!@# parameterize to trailingbadcharacters" in {
+    		Inflections.parameterize("Trailing bad characters!@#", "") must be equalTo "trailingbadcharacters"
+    	} 
+    	"!@#Leading bad characters parameterize to leadingbadcharacters" in {
+    		Inflections.parameterize("!@#Leading bad characters", "") must be equalTo "leadingbadcharacters"
+    	}
+    	"Squeeze   separators parameterize to squeezeseparators" in {    	
+    		Inflections.parameterize("Squeeze   separators", "") must be equalTo "squeezeseparators"
+    	} 
+    	"Test with + sign parameterize to testwithsign" in {
+    		Inflections.parameterize("Test with + sign", "") must be equalTo "testwithsign"
+		}
+  	}
+
 	"ordinalize" should {
 		"ordinalize -1..-9" in {
 			Inflections.ordinalize(-1) must be equalTo "-1st"
