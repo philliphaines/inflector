@@ -626,45 +626,107 @@ object InflectionsSpec extends Specification {
 		"singularize perspectives to perspective" in {
 			Inflections.singularize("perspectives") must be equalTo "perspective"
 		}
-/*	                
-     "ox"         => "oxen",
-     "photo"      => "photos",
-     "buffalo"    => "buffaloes",
-     "tomato"     => "tomatoes",
-     "dwarf"      => "dwarves",
-     "elf"        => "elves",
-     "information"=> "information",
-     "equipment"  => "equipment",
-     "bus"        => "buses",
-     "status"     => "statuses",
-     "status_code"=> "status_codes",
-     "mouse"      => "mice",
 
-     "louse"      => "lice",
-     "house"      => "houses",
-     "octopus"    => "octopi",
-     "virus"      => "viri",
-     "alias"      => "aliases",
-     "portfolio"  => "portfolios",
+		"singularize oxen to ox" in {
+			Inflections.singularize("oxen") must be equalTo "ox"
+		}
+		"singularize photos to photo" in {
+			Inflections.singularize("photos") must be equalTo "photo"
+		}
+		"singularize buffaloes to buffalo" in {
+			Inflections.singularize("buffaloes") must be equalTo "buffalo"
+		}
+		"singularize tomatoes to tomato" in {
+			Inflections.singularize("tomatoes") must be equalTo "tomato"
+		}
+		"singularize dwarves to dwarf" in {
+			Inflections.singularize("dwarves") must be equalTo "dwarf"
+		}
+		"singularize elves to elf" in {
+			Inflections.singularize("elves") must be equalTo "elf"
+		}
 
-     "vertex"     => "vertices",
-     "matrix"     => "matrices",
-     "matrix_fu"  => "matrix_fus",
+		"singularize information to information" in {
+			Inflections.singularize("information") must be equalTo "information"
+		}
+		"singularize equipment to equipment" in {
+			Inflections.singularize("equipment") must be equalTo "equipment"
+		}
+		"singularize buses to bus" in {
+			Inflections.singularize("buses") must be equalTo "bus"
+		}
+		"singularize statuses to status" in {
+			Inflections.singularize("statuses") must be equalTo "status"
+		}
+		"singularize status_codes to status_code" in {
+			Inflections.singularize("status_codes") must be equalTo "status_code"
+		}
+		"singularize mice to mouse" in {
+			Inflections.singularize("mice") must be equalTo "mouse"
+		}
 
-     "axis"       => "axes",
-     "testis"     => "testes",
-     "crisis"     => "crises",
+		"singularize lice to louse" in {
+			Inflections.singularize("lice") must be equalTo "louse"
+		}
+		"singularize houses to house" in {
+			Inflections.singularize("houses") must be equalTo "house"
+		}
+		"singularize octopi to octopus" in {
+			Inflections.singularize("octopi") must be equalTo "octopus"
+		}
+		"singularize viri to virus" in {
+			Inflections.singularize("viri") must be equalTo "virus"
+		}
+		"singularize aliases to alias" in {
+			Inflections.singularize("aliases") must be equalTo "alias"
+		}
+		"singularize portfolios to portfolio" in {
+			Inflections.singularize("portfolios") must be equalTo "portfolio"
+		}
 
-     "rice"       => "rice",
-     "shoe"       => "shoes",
+		"singularize vertices to vertex" in {
+			Inflections.singularize("vertices") must be equalTo "vertex"
+		}
+		"singularize matrices to matrix" in {
+			Inflections.singularize("matrices") must be equalTo "matrix"
+		}
+		"singularize matrix_fus to matrix_fu" in {
+			Inflections.singularize("matrix_fus") must be equalTo "matrix_fu"
+		}
 
-     "horse"      => "horses",
-     "prize"      => "prizes",
-     "edge"       => "edges",
+		"singularize axes to axis" in {
+			Inflections.singularize("axes") must be equalTo "axis"
+		}
+		"singularize testes to testis" in {
+			Inflections.singularize("testes") must be equalTo "testis"
+		}
+		"singularize crises to crisis" in {
+			Inflections.singularize("crises") must be equalTo "crisis"
+		}
 
-     "cow"        => "kine",
-     "database"   => "databases"
-     */
+		"singularize rice to rice" in {
+			Inflections.singularize("rice") must be equalTo "rice"
+		}
+		"singularize shoes to shoe" in {
+			Inflections.singularize("shoes") must be equalTo "shoe"
+		}
+
+		"singularize horses to horse" in {
+			Inflections.singularize("horses") must be equalTo "horse"
+		}
+		"singularize prizes to prize" in {
+			Inflections.singularize("prizes") must be equalTo "prize"
+		}
+		"singularize edges to edge" in {
+			Inflections.singularize("edges") must be equalTo "edge"
+		}
+
+		"singularize kine to cow" in {
+			Inflections.singularize("kine") must be equalTo "cow"
+		}
+		"singularize databases to database" in {
+			Inflections.singularize("databases") must be equalTo "database"
+		}
 	}
 	
 }

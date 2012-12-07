@@ -34,7 +34,7 @@ object InflectionsResource {
 		("s$", ""),
 	    ("(n)ews$", "$1ews"),
 	    ("([ti])a$", "$1um"),
-	    ("((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$", "$1\2sis"),
+	    ("((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$", "$1$2sis"),
 	    ("(^analy)ses$", "$1sis"),
 	    ("([^f])ves$", "$1fe"),
 	    ("(hive)s$", "$1"),
