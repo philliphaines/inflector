@@ -440,6 +440,9 @@ object InflectionsSpec extends Specification {
 		"pluralize shoe to shoes" in {
 			Inflections.pluralize("shoe") must be equalTo "shoes"
 		}
+		"pluralize Shoe to Shoes" in {
+			Inflections.pluralize("Shoe") must be equalTo "Shoes"
+		}
 
 		"pluralize horse to horses" in {
 			Inflections.pluralize("horse") must be equalTo "horses"
