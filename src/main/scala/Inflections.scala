@@ -56,6 +56,14 @@ object Inflections {
   }
 
   def pluralize(word: String) : String = {
+    applyInflections(word, InflectionsResource.plural)
+  }
+
+  def singularize(word: String) : String = {
+    applyInflections(word, InflectionsResource.singular)
+  }
+
+  private def applyInflections(word: String, rules: List[(String, String)]) : String = {
     var matchUncounted = false
     InflectionsResource.uncountable.foreach((uncounted) => { 
       if ((uncounted + "$").r.findFirstIn(word) != None) matchUncounted = true 
@@ -65,11 +73,11 @@ object Inflections {
       return word
     }
 
-    InflectionsResource.plural.foreach( (rule) => {
+    rules.foreach( (rule) => {
         val regexApplied = rule._1.r.replaceAllIn(word, rule._2)
         if (!regexApplied.equals(word)) return regexApplied
     })
-    word
+    word  
   }
 
   def transliterate(term: String) : String = {

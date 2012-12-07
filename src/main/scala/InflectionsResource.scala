@@ -55,7 +55,7 @@ object InflectionsResource {
 	    ("(vert|ind)ices$", "$1ex"),
 	    ("(matr)ices$", "$1ix"),
 	    ("(quiz)zes$", "$1"),
-	    ("(database)s$", "$1")
+	    ("(database)s$", "$1"),
 	    ("people$", "person"),
 	    ("men$", "man"),
 	    ("children$", "child"),
