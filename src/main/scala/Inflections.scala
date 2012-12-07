@@ -25,6 +25,10 @@ object Inflections {
     ).toLowerCase
   }
 
+  def humanize(term: String) : String = {
+    """_id$""".r.replaceAllIn(term, "").replaceAll("_", " ").capitalize
+  }
+
   def ordinalize(term: Int) : String = {
     if (11 until 14 contains((term % 100).abs)) {
       "%dth".format(term)
@@ -49,6 +53,23 @@ object Inflections {
     trimseparatorPattern.replaceAllIn(
       separatorRepeatedPattern.replaceAllIn(
         """[^a-zA-Z0-9\-_]+""".r.replaceAllIn(transliterate(term), separator), ""), "").toLowerCase
+  }
+
+  def pluralize(word: String) : String = {
+    var matchUncounted = false
+    InflectionsResource.uncountable.foreach((uncounted) => { 
+      if ((uncounted + "$").r.findFirstIn(word) != None) matchUncounted = true 
+    })
+
+    if (word.length == 0 || matchUncounted) {
+      return word
+    }
+
+    InflectionsResource.plural.foreach( (rule) => {
+        val regexApplied = rule._1.r.replaceAllIn(word, rule._2)
+        if (!regexApplied.equals(word)) return regexApplied
+    })
+    word
   }
 
   def transliterate(term: String) : String = {
