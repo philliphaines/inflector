@@ -12,6 +12,19 @@ object Inflections {
     }
 	}
 
+  /**
+    Makes an underscored, lowercase form from the expression in the string.
+  */
+  def underscore(string: String) : String = {
+    """([a-z\d])([A-Z])""".r.replaceAllIn(
+      """([A-Z\d]+)([A-Z][a-z])""".r.replaceAllIn(string, matcher => {
+        matcher.group(1) + "_" + matcher.group(2)
+      }), matcher => {
+        matcher.group(1) + "_" + matcher.group(2)
+      }
+    ).toLowerCase
+  }
+
   def ordinalize(term: Int) : String = {
     if (11 until 14 contains((term % 100).abs)) {
       "%dth".format(term)
