@@ -32,6 +32,21 @@ object InflectionsSpec extends Specification {
 		}
 	}	
 
+	"underscore" should {
+		"underscore Product to product" in {
+			Inflections.underscore("Product") must be equalTo "product"			
+		}
+		"underscore specialGuestStar to special_guest_star" in {
+			Inflections.underscore("specialGuestStar") must be equalTo "special_guest_star"
+		}
+		"underscore ApplicationController to application_controller" in {
+			Inflections.underscore("ApplicationController") must be equalTo "application_controller"
+		}
+		"underscore Area51Controller to area51_controller" in {
+			Inflections.underscore("Area51Controller") must be equalTo "area51_controller"
+		}
+	}
+
 	"parameterize" should {
 		"Donald E. Knuth parameterize to donald-e-knuth" in {
 			Inflections.parameterize("Donald E. Knuth") must be equalTo "donald-e-knuth"
@@ -159,21 +174,6 @@ object InflectionsSpec extends Specification {
 		    Inflections.ordinalize(113) must be equalTo "113th"
 		    Inflections.ordinalize(1000) must be equalTo "1000th"
 		    Inflections.ordinalize(1001) must be equalTo "1001st"
-		}
-	}
-	
-	"underscore" should {
-		"underscore Product to product" in {
-			Inflections.underscore("Product") must be equalTo "product"			
-		}
-		"underscore specialGuestStar to special_guest_star" in {
-			Inflections.underscore("specialGuestStar") must be equalTo "special_guest_star"
-		}
-		"underscore ApplicationController to application_controller" in {
-			Inflections.underscore("ApplicationController") must be equalTo "application_controller"
-		}
-		"underscore Area51Controller to area51_controller" in {
-			Inflections.underscore("Area51Controller") must be equalTo "area51_controller"
 		}
 	}
 }
