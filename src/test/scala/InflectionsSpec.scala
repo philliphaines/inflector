@@ -728,5 +728,11 @@ object InflectionsSpec extends Specification {
 			Inflections.singularize("databases") must be equalTo "database"
 		}
 	}
-	
+
+	"transliterate" should {
+		"transliterate x to x" in {
+			InflectionsResource.unicodeMapping.foreach( (mapping) => { println(mapping._2 + " : " + mapping._1) } )
+			1 must be equalTo 1			
+		}
+	}
 }

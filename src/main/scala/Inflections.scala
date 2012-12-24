@@ -1,5 +1,6 @@
 import java.text.Normalizer
 import java.util.regex.Pattern
+import scala.util.control.Breaks._
 
 object Inflections {
 	def camelize(term: String, upperCaseFirstLetter : Boolean = true) : String = {
@@ -77,11 +78,29 @@ object Inflections {
         val regexApplied = rule._1.r.replaceAllIn(word, rule._2)
         if (!regexApplied.equals(word)) return regexApplied
     })
+
     word  
   }
 
-  def transliterate(term: String) : String = {
+  def transliterate(word: String) : String = {
     // http://www.jarvana.com/jarvana/view/org/apache/lucene/lucene-core/2.9.3/lucene-core-2.9.3-sources.jar!/org/apache/lucene/analysis/ASCIIFoldingFilter.java?format=ok
-    term
+    word.toList.map( (character) => {
+      var replacementChar = character.toString
+
+      breakable {
+        if (character < 0x80) {
+          break
+        }
+
+        InflectionsResource.unicodeMapping.keys.foreach( (key) => {
+          if (key.contains(character)) { 
+            replacementChar = InflectionsResource.unicodeMapping.get(key).get
+            break
+          }
+        } )
+      }
+
+      replacementChar
+    }).mkString
   }
 }
