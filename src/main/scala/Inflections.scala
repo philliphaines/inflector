@@ -96,7 +96,7 @@ object Inflections {
   which are not in the first 127 ASCII characters (the "Basic Latin" Unicode
   block) into their ASCII equivalents, if one exists.
 
-  Based on the implemenation used in Apache Lucene
+  Based on the implementation used in Apache Lucene
   http://svn.apache.org/repos/asf/lucene/dev/tags/lucene_solr_3_1/lucene/src/java/org/apache/lucene/analysis/ASCIIFoldingFilter.java
   */
   def transliterate(string: String) : String = {
