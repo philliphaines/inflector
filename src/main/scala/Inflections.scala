@@ -3,7 +3,7 @@ import java.util.regex.Pattern
 import scala.util.control.Breaks._
 
 /**
-  
+
 */
 object Inflections {
 	def camelize(term: String, upperCaseFirstLetter : Boolean = true) : String = {
@@ -29,6 +29,10 @@ object Inflections {
     ).toLowerCase
   }
 
+  /** 
+    Capitalizes the first word and turns underscores into spaces and strips a
+    trailing "_id", if any.
+  */
   def humanize(lowerCaseAndUnderscoredWord: String) : String = {
     """_id$""".r.replaceAllIn(lowerCaseAndUnderscoredWord, "").replaceAll("_", " ").capitalize
   }
@@ -59,10 +63,12 @@ object Inflections {
         """[^a-zA-Z0-9\-_]+""".r.replaceAllIn(transliterate(string), separator), ""), "").toLowerCase
   }
 
+  /** Returns the plural form of the word in the string. */
   def pluralize(word: String) : String = {
     applyInflections(word, InflectionsResource.plural)
   }
 
+  /** Returns the singular form of a word in a string. */
   def singularize(word: String) : String = {
     applyInflections(word, InflectionsResource.singular)
   }
