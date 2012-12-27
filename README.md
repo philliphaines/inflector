@@ -4,5 +4,6 @@ A Scala implmentation of RoR Inflecor libaray. The Inflector transforms words fr
 
 https://github.com/rails/rails/tree/master/activesupport/lib/active_support/inflector
 
+
 ## License
 This content is released under the MIT License.
