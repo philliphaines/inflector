@@ -189,10 +189,10 @@ object InflectionsSpec extends Specification {
 		}
 	}
 
-	"transliterate" should {
-		"transliterate x to x" in {
-			InflectionsResource.unicodeMapping.foreach( (mapping) => { println(mapping._2 + " : " + mapping._1) } )
-			1 must be equalTo 1			
-		}
-	}
+	//"transliterate" should {
+	//	"transliterate x to x" in {
+	//		InflectionsResource.unicodeMapping.foreach( (mapping) => { println(mapping._2 + " : " + mapping._1) } )
+	//		1 must be equalTo 1			
+	//	}
+	//}
 }
