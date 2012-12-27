@@ -1,5 +1,4 @@
 import org.specs2.mutable._
-import org.specs2.mock.Mockito
 
 object InflectionsSpec extends Specification {
 	"camelize" should {
