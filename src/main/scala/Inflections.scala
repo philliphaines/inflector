@@ -2,6 +2,9 @@ import java.text.Normalizer
 import java.util.regex.Pattern
 import scala.util.control.Breaks._
 
+/**
+  
+*/
 object Inflections {
 	def camelize(term: String, upperCaseFirstLetter : Boolean = true) : String = {
 		val result = """(?:_|(\/)| )([a-z\d]*)""".r.replaceAllIn(term, m => {  m.group(2).capitalize } )		
@@ -16,9 +19,9 @@ object Inflections {
   /**
     Makes an underscored, lowercase form from the expression in the string.
   */
-  def underscore(string: String) : String = {
+  def underscore(camelCaseWord: String) : String = {
     """([a-z\d])([A-Z])""".r.replaceAllIn(
-      """([A-Z\d]+)([A-Z][a-z])""".r.replaceAllIn(string, matcher => {
+      """([A-Z\d]+)([A-Z][a-z])""".r.replaceAllIn(camelCaseWord, matcher => {
         matcher.group(1) + "_" + matcher.group(2)
       }), matcher => {
         matcher.group(1) + "_" + matcher.group(2)
@@ -26,19 +29,19 @@ object Inflections {
     ).toLowerCase
   }
 
-  def humanize(term: String) : String = {
-    """_id$""".r.replaceAllIn(term, "").replaceAll("_", " ").capitalize
+  def humanize(lowerCaseAndUnderscoredWord: String) : String = {
+    """_id$""".r.replaceAllIn(lowerCaseAndUnderscoredWord, "").replaceAll("_", " ").capitalize
   }
 
-  def ordinalize(term: Int) : String = {
-    if (11 until 14 contains((term % 100).abs)) {
-      "%dth".format(term)
+  def ordinalize(number: Int) : String = {
+    if (11 until 14 contains((number % 100).abs)) {
+      "%dth".format(number)
     } else {
-      (term % 10).abs match {
-        case 1 => "%dst".format(term)
-        case 2 => "%dnd".format(term)
-        case 3 => "%drd".format(term)
-        case _ => "%dth".format(term)
+      (number % 10).abs match {
+        case 1 => "%dst".format(number)
+        case 2 => "%dnd".format(number)
+        case 3 => "%drd".format(number)
+        case _ => "%dth".format(number)
       }
     }
   }
@@ -46,14 +49,14 @@ object Inflections {
   /**
    Replaces special characters in a string so that it may be used as part of a ‘pretty’ URL.
    */
-  def parameterize(term: String, separator: String = "-") : String = {
+  def parameterize(string: String, separator: String = "-") : String = {
     val separatorRegex = Pattern.quote(separator)
     val separatorRepeatedPattern = (separatorRegex + "{2,}").r
     val trimseparatorPattern = ("^" + separatorRegex + "|" + separatorRegex + "$").r
 
     trimseparatorPattern.replaceAllIn(
       separatorRepeatedPattern.replaceAllIn(
-        """[^a-zA-Z0-9\-_]+""".r.replaceAllIn(transliterate(term), separator), ""), "").toLowerCase
+        """[^a-zA-Z0-9\-_]+""".r.replaceAllIn(transliterate(string), separator), ""), "").toLowerCase
   }
 
   def pluralize(word: String) : String = {
@@ -82,9 +85,16 @@ object Inflections {
     word  
   }
 
-  def transliterate(word: String) : String = {
-    // http://www.jarvana.com/jarvana/view/org/apache/lucene/lucene-core/2.9.3/lucene-core-2.9.3-sources.jar!/org/apache/lucene/analysis/ASCIIFoldingFilter.java?format=ok
-    word.toList.map( (character) => {
+  /**
+  This method converts alphabetic, numeric, and symbolic Unicode characters
+  which are not in the first 127 ASCII characters (the "Basic Latin" Unicode
+  block) into their ASCII equivalents, if one exists.
+
+  Based on the implemenation used in Apache Lucene
+  http://svn.apache.org/repos/asf/lucene/dev/tags/lucene_solr_3_1/lucene/src/java/org/apache/lucene/analysis/ASCIIFoldingFilter.java
+  */
+  def transliterate(string: String) : String = {
+    string.toList.map( (character) => {
       var replacementChar = character.toString
 
       breakable {
