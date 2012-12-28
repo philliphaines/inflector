@@ -1,11 +1,15 @@
 import java.text.Normalizer
 import java.util.regex.Pattern
 import scala.util.control.Breaks._
+import com.typesafe.config._
+import collection.JavaConversions._
 
 /**
 
 */
 object Inflections {
+  val config = ConfigFactory.load()
+
 	def camelize(term: String, upperCaseFirstLetter : Boolean = true) : String = {
 		val result = """(?:_|(\/)| )([a-z\d]*)""".r.replaceAllIn(term, m => {  m.group(2).capitalize } )		
     
@@ -75,7 +79,8 @@ object Inflections {
 
   private def applyInflections(word: String, rules: List[(String, String)]) : String = {
     var matchUncounted = false
-    InflectionsResource.uncountable.foreach((uncounted) => { 
+
+    config.getStringList("inflector.uncountable").foreach((uncounted) => { 
       if ((uncounted + "$").r.findFirstIn(word) != None) matchUncounted = true 
     })
 
