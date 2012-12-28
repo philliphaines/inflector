@@ -15,15 +15,15 @@ object Inflections {
   val singular = (config.getStringList("inflector.singular").sliding(2, 2).toList.map((tuple) => (tuple.get(0), tuple.get(1))) ++ config.getStringList("inflector.irregular").sliding(2, 2).toList.map((tuple) => (tuple.get(0) + "$", tuple.get(1)))).reverse
   val unicodeMapping = config.getStringList("inflector.unicodeMapping").sliding(2, 2).toList.map((tuple) => (tuple.get(0), tuple.get(1))).reverse
 
-	def camelize(term: String, upperCaseFirstLetter : Boolean = true) : String = {
-		val result = """(?:_|(\/)| )([a-z\d]*)""".r.replaceAllIn(term, m => {  m.group(2).capitalize } )		
-    
+  def camelize(term: String, upperCaseFirstLetter : Boolean = true) : String = {
+    val result = """(?:_|(\/)| )([a-z\d]*)""".r.replaceAllIn(term, m => {  m.group(2).capitalize } )		
+
     if (upperCaseFirstLetter) { 
       result.capitalize
     } else {
       result
     }
-	}
+  }
 
   /**
     Makes an underscored, lowercase form from the expression in the string.
