@@ -11,8 +11,8 @@ object Inflections {
   val config = ConfigFactory.load()
 
   val uncountable = config.getStringList("inflector.uncountable")
-  val plural = config.getStringList("inflector.plural").sliding(2, 2).toList.map((tuple) => (tuple.get(0), tuple.get(1))).reverse
-  val singular = config.getStringList("inflector.singular").sliding(2, 2).toList.map((tuple) => (tuple.get(0), tuple.get(1))).reverse
+  val plural = (config.getStringList("inflector.plural").sliding(2, 2).toList.map((tuple) => (tuple.get(0), tuple.get(1))) ++ config.getStringList("inflector.irregular").sliding(2, 2).toList.map((tuple) => (tuple.get(1) + "$", tuple.get(0)))).reverse
+  val singular = (config.getStringList("inflector.singular").sliding(2, 2).toList.map((tuple) => (tuple.get(0), tuple.get(1))) ++ config.getStringList("inflector.irregular").sliding(2, 2).toList.map((tuple) => (tuple.get(0) + "$", tuple.get(1)))).reverse
   val unicodeMapping = config.getStringList("inflector.unicodeMapping").sliding(2, 2).toList.map((tuple) => (tuple.get(0), tuple.get(1))).reverse
 
 	def camelize(term: String, upperCaseFirstLetter : Boolean = true) : String = {
