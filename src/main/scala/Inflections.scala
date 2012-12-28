@@ -10,6 +10,11 @@ import collection.JavaConversions._
 object Inflections {
   val config = ConfigFactory.load()
 
+  val uncountable = config.getStringList("inflector.uncountable")
+  val plural = config.getStringList("inflector.plural").sliding(2, 2).toList.map((tuple) => (tuple.get(0), tuple.get(1))).reverse
+  val singular = config.getStringList("inflector.singular").sliding(2, 2).toList.map((tuple) => (tuple.get(0), tuple.get(1))).reverse
+  val unicodeMapping = config.getStringList("inflector.unicodeMapping").sliding(2, 2).toList.map((tuple) => (tuple.get(0), tuple.get(1))).reverse
+
 	def camelize(term: String, upperCaseFirstLetter : Boolean = true) : String = {
 		val result = """(?:_|(\/)| )([a-z\d]*)""".r.replaceAllIn(term, m => {  m.group(2).capitalize } )		
     
@@ -69,18 +74,18 @@ object Inflections {
 
   /** Returns the plural form of the word in the string. */
   def pluralize(word: String) : String = {
-    applyInflections(word, InflectionsResource.plural)
+    applyInflections(word, plural)
   }
 
   /** Returns the singular form of a word in a string. */
   def singularize(word: String) : String = {
-    applyInflections(word, InflectionsResource.singular)
+    applyInflections(word, singular)
   }
 
   private def applyInflections(word: String, rules: List[(String, String)]) : String = {
     var matchUncounted = false
 
-    config.getStringList("inflector.uncountable").foreach((uncounted) => { 
+    uncountable.foreach((uncounted) => { 
       if ((uncounted + "$").r.findFirstIn(word) != None) matchUncounted = true 
     })
 
@@ -89,8 +94,8 @@ object Inflections {
     }
 
     rules.foreach( (rule) => {
-        val regexApplied = rule._1.r.replaceAllIn(word, rule._2)
-        if (!regexApplied.equals(word)) return regexApplied
+      val regexApplied = rule._1.r.replaceAllIn(word, rule._2)
+      if (!regexApplied.equals(word)) return regexApplied
     })
 
     word  
@@ -113,9 +118,9 @@ object Inflections {
           break
         }
 
-        InflectionsResource.unicodeMapping.keys.foreach( (key) => {
-          if (key.contains(character)) { 
-            replacementChar = InflectionsResource.unicodeMapping.get(key).get
+        unicodeMapping.foreach( (mapping) => {
+          if (mapping._1.contains(character)) { 
+            replacementChar = mapping._2
             break
           }
         } )
