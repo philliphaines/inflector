@@ -188,10 +188,20 @@ object InflectionsSpec extends Specification {
 		}
 	}
 
-	//"transliterate" should {
-	//	"transliterate x to x" in {
-	//		InflectionsResource.unicodeMapping.foreach( (mapping) => { println(mapping._2 + " : " + mapping._1) } )
-	//		1 must be equalTo 1			
-	//	}
-	//}
+	//InflectionsResource.unicodeMapping.foreach( (mapping) => { println(mapping._2 + " : " + mapping._1) } )
+
+	"transliterate" should {
+		"transliterate Ærøskøbing to AEroskobing" in {
+			Inflections.transliterate("Ærøskøbing") must be equalTo "AEroskobing"
+		}
+		"transliterate with \"None\" replacement Ærøskøbing to AEroskobing" in {
+			Inflections.transliterate("Ærøskøbing", None) must be equalTo "AEroskobing"
+		}
+		"transliterate ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩ to ? ? ? ? ? ? ? ? ? ?" in {
+			Inflections.transliterate("٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩") must be equalTo "? ? ? ? ? ? ? ? ? ?"
+		}
+		"transliterate with \"None\" replacement ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩ to ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩" in {
+			Inflections.transliterate("٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩", None) must be equalTo "٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩"
+		}
+	}
 }

@@ -11,10 +11,14 @@ object Inflections {
   val config = ConfigFactory.load()
 
   val uncountable = config.getStringList("inflector.uncountable")
-  val plural = (config.getStringList("inflector.plural").sliding(2, 2).toList.map((tuple) => (tuple.get(0), tuple.get(1))) ++ config.getStringList("inflector.irregular").sliding(2, 2).toList.map((tuple) => (tuple.get(1) + "$", tuple.get(0)))).reverse
-  val singular = (config.getStringList("inflector.singular").sliding(2, 2).toList.map((tuple) => (tuple.get(0), tuple.get(1))) ++ config.getStringList("inflector.irregular").sliding(2, 2).toList.map((tuple) => (tuple.get(0) + "$", tuple.get(1)))).reverse
   val unicodeMapping = config.getStringList("inflector.unicodeMapping").sliding(2, 2).toList.map((tuple) => (tuple.get(0), tuple.get(1))).reverse
-
+  
+  val plural = (config.getStringList("inflector.plural").sliding(2, 2).toList.map((tuple) => (tuple.get(0), tuple.get(1))) 
+    ++ config.getStringList("inflector.irregular").sliding(2, 2).toList.map((tuple) => (tuple.get(1) + "$", tuple.get(0)))).reverse
+  
+  val singular = (config.getStringList("inflector.singular").sliding(2, 2).toList.map((tuple) => (tuple.get(0), tuple.get(1))) 
+    ++ config.getStringList("inflector.irregular").sliding(2, 2).toList.map((tuple) => (tuple.get(0) + "$", tuple.get(1)))).reverse
+  
   def camelize(term: String, upperCaseFirstLetter : Boolean = true) : String = {
     val result = """(?:_|(\/)| )([a-z\d]*)""".r.replaceAllIn(term, m => {  m.group(2).capitalize } )		
 
@@ -109,23 +113,23 @@ object Inflections {
   Based on the implementation used in Apache Lucene
   http://svn.apache.org/repos/asf/lucene/dev/tags/lucene_solr_3_1/lucene/src/java/org/apache/lucene/analysis/ASCIIFoldingFilter.java
   */
-  def transliterate(string: String) : String = {
+  def transliterate(string: String, replacementCharacter: Option[String] = Some("?")) : String = {
     string.toList.map( (character) => {
-      var replacementChar = character.toString
+      var replacementChar = replacementCharacter.getOrElse(character.toString)
 
-      breakable {
-        if (character < 0x80) {
-          break
+      if (character < 0x80) {
+        replacementChar = character.toString
+      } else {
+        breakable {
+          unicodeMapping.foreach( (mapping) => {
+            if (mapping._1.contains(character)) { 
+              replacementChar = mapping._2
+              break
+            }
+          } )
         }
-
-        unicodeMapping.foreach( (mapping) => {
-          if (mapping._1.contains(character)) { 
-            replacementChar = mapping._2
-            break
-          }
-        } )
       }
-
+    
       replacementChar
     }).mkString
   }
