@@ -68,7 +68,9 @@ object InflectionsSpec extends Specification {
 		"Test with + sign parameterize to test-with-sign" in {    
 		    Inflections.parameterize("Test with + sign") must be equalTo "test-with-sign"
 		}
-		    //Inflections.parameterize("Test with malformed utf8 \u0102") must be equalTo "test-with-malformed-utf8"
+		"Test with malformed utf8 \u0102 parameterize to test-with-malformed-utf8-a" in {    
+		    Inflections.parameterize("Test with malformed utf8 \u0102") must be equalTo "test-with-malformed-utf8-a"
+		}
 	}
 
 	"parameterize with no separator" should {
